@@ -14,5 +14,9 @@ public abstract class BaseClass<T> {
 		String className = getClass().getSimpleName();
         logger = LoggerFactory.getLogger(className);
 	}
+
+	public WebDriver getDriver() {
+		return this.driver;
+	}
 	
 }

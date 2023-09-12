@@ -22,8 +22,8 @@ public class ConfigReader {
         return properties.getProperty("url");
     }
 
-    public static String getEmail() {
-        return properties.getProperty("email");
+    public static String getUser() {
+        return properties.getProperty("user");
     }
 
     public static String getPassword() {

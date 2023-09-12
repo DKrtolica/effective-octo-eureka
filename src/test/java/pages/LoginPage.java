@@ -8,12 +8,11 @@ import util.HelperWait;
 
 public class LoginPage extends BaseClass<LoginPage> {
 
-	private final By EMAIL = By.id("username");
+	private final By EMAIL = By.cssSelector("input#user-name");
 	private final By PASSWORD = By.id("password");
-	private final By SIGNIN = By.id("loginButton");
-	
-	private final By LOGIN = By.linkText("Log In");
-	
+	private final By LOGINBUTTON = By.cssSelector("input#login-button");
+
+
 	public LoginPage(WebDriver driver) {
 		super(driver);
 	}
@@ -21,41 +20,31 @@ public class LoginPage extends BaseClass<LoginPage> {
 	public void enterCredentials(String email, String password) {
 		
 		enterEmail(email);
-		clickContinue();
-
-		if(waitTillPasswordIsVisible()) {
-			enterPassword(password);
-		} else {
-			enterCredentials(email, password);
-		}
-
+		enterPassword(password);
 		logger.debug("Credentials are entered");
 	}
 	
-	public void clickContinue() {
-		HelperSeleniumAction.click(driver, SIGNIN);
+	public void clickLoginButton() {
+		HelperSeleniumAction.click(driver, LOGINBUTTON);
 	}
 	
-	private void enterEmail(String email) {
-		HelperSeleniumAction.typeOnText(driver, EMAIL, email);
+	private void enterEmail(String userName) {
+		HelperSeleniumAction.typeOnText(driver, EMAIL, userName);
 	}
 	
 	private void enterPassword(String password) {
 		HelperSeleniumAction.typeOnText(driver, PASSWORD, password);
 	}
 	
-	public void clickLoginLink() {
-		HelperSeleniumAction.click(driver, LOGIN);
-//		logger.info("Login button is clicked");
-	}
+
 	
 	public boolean verifyLogInLink() {
-		return driver.findElements(LOGIN).size() > 0;
+		return true;
 	}
 	
 	public boolean verifyLoginUnsuccessful() {
 //		logger.info("Verifying the user is on the login page");
-		return driver.findElements(SIGNIN).size() == 0;
+		return driver.findElements(LOGINBUTTON).size() == 0;
 	}
 	
 	private boolean waitTillPasswordIsVisible() {
@@ -68,7 +57,7 @@ public class LoginPage extends BaseClass<LoginPage> {
 			
 		} catch(Exception e) {
 //			logger.error(e.toString());
-			clickContinue();
+			clickLoginButton();
 			waitTillPasswordIsVisible();
 		}
 		

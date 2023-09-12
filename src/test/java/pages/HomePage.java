@@ -2,6 +2,7 @@ package pages;
 
 import java.time.Duration;
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,8 +13,12 @@ import util.HelperIFrame;
 import util.HelperSeleniumAction;
 import util.HelperWait;
 
+
 public class HomePage extends BaseClass<HomePage> {
 	
+	private final By SHOPPING_CART_LINK = By.cssSelector("a.shopping_cart_link");
+	private final By MENU_BUTTON = By.cssSelector("a.shopping_cart_link");
+
 	private final By HOME_ELMNT = By.id("qa-HOME-CONTAINER");
 	private final By NEW_ELMNT = By.id("qa-CREATE_NOTE");
 	private final By SIGNOUT_ELMNT = By.id("qa-ACCOUNT_DROPDOWN_LOGOUT");
@@ -35,7 +40,24 @@ public class HomePage extends BaseClass<HomePage> {
 	public HomePage(WebDriver driver) {
 		super(driver);
 	}
-	
+	public void waitForHomePageToLoad() {
+		try {
+			HelperWait.waitForElementVisible(driver,SHOPPING_CART_LINK,5);
+		} catch (Exception ignore) {
+		}
+	}
+	public void clickMenuButton() {
+		HelperSeleniumAction.click(driver,MENU_BUTTON);
+	}
+
+	public boolean isHomePageDisplayed() {
+		return driver.findElements(SHOPPING_CART_LINK).size() > 0;
+	}
+
+	public void clickSignOut() {
+		HelperSeleniumAction.click(driver, SIGNOUT_ELMNT);
+	}
+
 	public void clickNewButton() {
 		HelperSeleniumAction.click(driver, NEW_ELMNT);
 	}
@@ -60,9 +82,7 @@ public class HomePage extends BaseClass<HomePage> {
 		sp.click();
 	}
 	
-	public void clickSignOut() {
-		HelperSeleniumAction.click(driver, SIGNOUT_ELMNT);
-	}
+
 	
 	private void swithToIframe(WebDriver driver, String iframeId) {
 		HelperIFrame.switchToIframe(driver, iframeId);
@@ -72,9 +92,7 @@ public class HomePage extends BaseClass<HomePage> {
 		HelperIFrame.exitIFrame(driver);
 	}
 	
-	public boolean isHomePageDisplayed() {
-		return driver.findElements(HOME_ELMNT).size() > 0;
-	}
+
 	
 	private WebElement getElementFromHomePageToVerify() {
 		return driver.findElement(HOME_ELMNT);

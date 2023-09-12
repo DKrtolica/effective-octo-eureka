@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class HelperSeleniumAction {
 
 	public static void click(WebDriver driver, By element) {
+		HelperWait.waitForElementVisible(driver,element,4);
 		driver.findElement(element).click();
 	}
 	

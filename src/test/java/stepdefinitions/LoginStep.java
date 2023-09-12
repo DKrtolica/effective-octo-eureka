@@ -3,6 +3,7 @@ package stepdefinitions;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import io.cucumber.datatable.DataTable;
 import org.openqa.selenium.WebDriver;
 
 import config.ConfigReader;
@@ -14,8 +15,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.HomePage;
 import pages.LoginPage;
-import util.HelperWait;
 import util.WebDriverObject;
+
+import java.util.List;
 
 public class LoginStep {
 	
@@ -34,19 +36,16 @@ public class LoginStep {
 		driver.manage().window().maximize();
 	}
 	
-	@And("clicks on the Log In link")
-	public void goToLoginPage() {
-		login.clickLoginLink();
-	}
+
 	
 	@When("user enters correct email and incorrect password {string} on the login page")
 	public void enterCredentials(String password) {
-		login.enterCredentials(ConfigReader.getEmail(), password);
+		login.enterCredentials(ConfigReader.getUser(), password);
 	}
 	
 	@And("click the sign in button")
 	public void clickSignIn() {
-		login.clickContinue();
+		login.clickLoginButton();
 	}
 	
 	@Then("user should not be allowed to login")
@@ -55,23 +54,33 @@ public class LoginStep {
 		assertFalse(loginStatus);
 	}
 
-	@When("user enters correct email and password on the login page")
+	@When("user enters correct username and password on the login page")
 	public void enterCorrectCredentials() {
-		login.enterCredentials(ConfigReader.getEmail(), ConfigReader.getPassword());
+		login.enterCredentials(ConfigReader.getUser(), ConfigReader.getPassword());
+	}
+	@When("user enters correct credentials on the login page")
+	public void enterCorrectCredentials(DataTable dataTable) {
+		List<String> credentials = dataTable.asList();
+		for (String temp : credentials) {
+			String username = credentials.get(0);
+			String password = credentials.get(1);
+			System.out.println("VVVVVV " + username + " " + password);
+		}
+		String username = credentials.get(0);
+		String password = credentials.get(1);
+
+		login.enterCredentials(ConfigReader.getUser(), ConfigReader.getPassword());
+	}
+	@And("user clicks on login button")
+	public void clickTheLoginButton() {
+		login.clickLoginButton();
 	}
 	
-	@And("click on sign in button")
-	public void clickTheSignIn() {
-		login.clickContinue();
-	}
-	
-	@Then("user should be able to navigate to the home page")
+	@Then("user should land on the home page")
 	public void verifyHomePage() {
-		
-		HomePage home = new HomePage(driver);
-		HelperWait.implicitWait(driver, 40);
-		
-		assertTrue(home.isHomePageDisplayed());
+		HomePage homePage = new HomePage(driver);
+		homePage.waitForHomePageToLoad();
+		assertTrue(homePage.isHomePageDisplayed());
 	}
 	
 	@After

@@ -38,9 +38,8 @@ public class HomePageStep {
 		
 		driver.get(ConfigReader.getUrl());
 		driver.manage().window().maximize();
-		login.clickLoginLink();
-		login.enterCredentials(ConfigReader.getEmail(), ConfigReader.getPassword());
-		login.clickContinue();
+		login.enterCredentials(ConfigReader.getUser(), ConfigReader.getPassword());
+		login.clickLoginButton();
 		home.waitHomePageToLoad();
 		home.isHomePageDisplayed();
 	}
