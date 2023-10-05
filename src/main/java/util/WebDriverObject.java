@@ -9,11 +9,11 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public final class WebDriverObject {
 
 	private static WebDriver driver;
-	
+
 	private WebDriverObject() {}
-	
+
 	public static WebDriver getInstance() {
-		
+
 		if(driver == null) {
 			synchronized (WebDriverObject.class) {
 				if(driver == null) {
@@ -24,12 +24,12 @@ public final class WebDriverObject {
 				}
 			}
 		}
-		
+
 		return driver;
-	}	
-	
+	}
+
 	public static void closeDriver() {
-		
+
 		if(driver != null) {
 			driver.close();
 			driver = null;
