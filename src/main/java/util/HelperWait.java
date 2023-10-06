@@ -4,6 +4,7 @@ import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -36,4 +37,11 @@ public class HelperWait {
 		 wait.until(ExpectedConditions.elementToBeClickable(element));
 	}
 
+	public static void waitForElementClickable(WebDriver driver, WebElement element, long seconds) {
+		Wait wait = new FluentWait<WebDriver>(driver)
+				.withTimeout(Duration.ofSeconds(5))
+				.pollingEvery(Duration.ofMillis(200))
+				.ignoring(Exception.class);
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+	}
 }
